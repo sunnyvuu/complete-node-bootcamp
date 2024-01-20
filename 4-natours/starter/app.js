@@ -12,6 +12,8 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
+const tourRouter = express.Router();
+
 const getAllTours = (req, res) => {
   res.status(200).json({
     status: 'success',
@@ -60,9 +62,10 @@ const createTour = (req, res) => {
 // app.get('/api/v1/tours/:id', getTour);
 // app.post('/api/v1/tours', createTour);
 
-app.route('/api/v1/tours').get(getAllTours).post(createTour);
-app.route('/api/v1/tours/:id').get(getTour);
+tourRouter.route('/').get(getAllTours).post(createTour);
+tourRouter.route('/:id').get(getTour);
 
+app.use('/api/v1/tours', tourRouter);
 const port = 3000;
 app.listen(port, () => {
   console.log(`App running on port ${port}...`);
